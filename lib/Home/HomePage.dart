@@ -187,10 +187,6 @@ class _HomePageState extends State<HomePage> {
                                         height: 100.0,
                                         child: Image.asset(
                                             'assets/images/HealtyOne.png'))),
-                                const Text(
-                                  'Chat Dengan\n     Dokter',
-                                  style: TextStyle(fontSize: 18.0),
-                                ),
                               ],
                             ),
                           ),
@@ -219,10 +215,6 @@ class _HomePageState extends State<HomePage> {
                                         height: 100.0,
                                         child: Image.asset(
                                             'assets/images/HealtyOne.png'))),
-                                const Text(
-                                  '      Toko\n Kesehatan',
-                                  style: TextStyle(fontSize: 18.0),
-                                ),
                               ],
                             ),
                           ),
@@ -251,10 +243,6 @@ class _HomePageState extends State<HomePage> {
                                         height: 100.0,
                                         child: Image.asset(
                                             'assets/images/HealtyOne.png'))),
-                                const Text(
-                                  'Janji Dengan\n      Dokter',
-                                  style: TextStyle(fontSize: 18.0),
-                                ),
                               ],
                             ),
                           ),

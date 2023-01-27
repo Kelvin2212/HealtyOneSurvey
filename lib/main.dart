@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Home/HomePage.dart';
+import 'package:flutter_application_1/Home/HomePageBeforeLogin.dart';
 import 'package:flutter_application_1/screens/FormSurvey/FormSurvey.dart';
 import 'package:flutter_application_1/screens/Login/LoginBener.dart';
 import 'package:flutter_application_1/screens/Login/LoginCoba.dart';
@@ -29,6 +30,13 @@ class _MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
     List<Widget> navBarItems = [
+      NavBarItem(
+        text: 'Home Pagee',
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => FirstMenu()));
+        },
+      ),
       NavBarItem(
         text: 'Survey',
         onTap: () {
