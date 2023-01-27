@@ -92,7 +92,7 @@ class _MyWidgetState extends State<MyWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Healty One',
                 style: TextStyle(
                   fontSize: 22.0,
