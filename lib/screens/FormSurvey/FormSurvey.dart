@@ -530,7 +530,6 @@ class _SurveyPageState extends State<SurveyPage> {
     for (var i = 0; i < _value.length; i++) {
       var jsonMap = {};
       jsonMap['id'] = idOption[i];
-
       jsonMap['data'] = _value[i];
       jsonArr.add(json.encode(jsonMap));
       jsonString = jsonArr.join("\n");
