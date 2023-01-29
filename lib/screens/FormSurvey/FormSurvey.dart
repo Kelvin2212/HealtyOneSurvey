@@ -375,31 +375,38 @@ class _SurveyPageState extends State<SurveyPage> {
   // );
 
   TextEditingController form = TextEditingController();
+  TextEditingController id = TextEditingController();
 
   String selectedChoice = '';
+  late int RadioId;
 
   List<String> _valuesCheck = [];
   List<List> _value = [];
+  List idCheck = [];
+  List<List> idOption = [];
 
-  void _onSelected(bool selected, String dataName) {
+  void _onSelected(bool selected, String dataName, int id) {
     if (selected == true) {
       setState(() {
         _valuesCheck.add(dataName);
+        idCheck.add(id);
       });
     } else {
       setState(() {
         _valuesCheck.remove;
+        idCheck.add(id);
       });
     }
   }
 
-  void _RadioSel(String choice) {
+  void _RadioSel(String choice, int id) {
     selectedChoice = choice;
+    RadioId = id;
   }
 
   int index = 60;
 
-  int? _selectedRadio;
+  int _selectedRadio = 0;
 
   setSelectedRadio(int val) {
     setState(() {
@@ -422,7 +429,7 @@ class _SurveyPageState extends State<SurveyPage> {
 
     var response1 = await http.get(
       Uri.parse(url1),
-      // headers: {'Authorization': 'Bearer $token'},
+      headers: {'Authorization': 'Bearer $token'},
     );
     if (response1.statusCode == 200) {
       var ujson = json.decode(response1.body)['data'];
@@ -448,7 +455,7 @@ class _SurveyPageState extends State<SurveyPage> {
 
     var response2 = await http.get(
       Uri.parse(url2),
-      // headers: {'Authorization': 'Bearer $token'},
+      headers: {'Authorization': 'Bearer $token'},
     );
     if (response2.statusCode == 200) {
       var ujson = json.decode(response2.body)['data'];
@@ -522,12 +529,12 @@ class _SurveyPageState extends State<SurveyPage> {
 
     for (var i = 0; i < _value.length; i++) {
       var jsonMap = {};
-      jsonMap['index'] = i + 1;
+      jsonMap['id'] = idOption[i];
 
       jsonMap['data'] = _value[i];
       jsonArr.add(json.encode(jsonMap));
       jsonString = jsonArr.join("\n");
-      print(_value);
+      // print(_value);
     }
     // var MappedJson = {};
 
@@ -543,7 +550,7 @@ class _SurveyPageState extends State<SurveyPage> {
     fetchJson1().then((value) {
       setState(() {
         _question.addAll(value);
-        // _selectedRadio = 0;
+        _selectedRadio = 0;
       });
     });
     fetchJson2().then((value) {
@@ -602,15 +609,25 @@ class _SurveyPageState extends State<SurveyPage> {
                   setState(() {
                     if (_question[index].type == 1 ||
                         _question[index].type == 2) {
+                      var idForm;
+                      for (int i = 0; i < _questionoption.length; i++)
+                        if (_question[index].id ==
+                            _questionoption[i].questionId)
+                          idForm = _questionoption[i].id;
                       _value.add([form.text]);
+                      idOption.add(idForm);
                     } else if (_question[index].type == 3 ||
                         _question[index].type == 4 ||
                         _question[index].type == 5 ||
                         _question[index].type == 7) {
                       _value.add([selectedChoice]);
+                      idOption.add([RadioId]);
                     } else {
                       var CacheList = List.from(_valuesCheck);
+                      var CacheId = List.from(idCheck);
                       _value.add(CacheList);
+                      idOption.add(CacheId);
+                      idCheck.clear();
                       _valuesCheck.clear();
                     }
                     index++;
@@ -662,13 +679,17 @@ class _SurveyPageState extends State<SurveyPage> {
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [radio(context, i, type, _questionoption[i].option)])
+                children: [
+                  radio(context, i, type, _questionoption[i].option,
+                      _questionoption[i].id)
+                ])
       ],
     );
   }
 
   @override
-  Widget radio(BuildContext context, int index, int type, String option) {
+  Widget radio(
+      BuildContext context, int index, int type, String option, int id) {
     if (type == 1 || type == 2)
       return TextField(
         controller: form,
@@ -699,7 +720,7 @@ class _SurveyPageState extends State<SurveyPage> {
           hintText: option,
         ),
       );
-    if (type == 3 || type == 4 || type == 5)
+    if (type == 3 || type == 4 || type == 5 || type == 7)
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -714,7 +735,7 @@ class _SurveyPageState extends State<SurveyPage> {
                   groupValue: _selectedRadio,
                   onChanged: (val) {
                     setSelectedRadio(val!);
-                    _RadioSel(option);
+                    _RadioSel(option, id);
                   },
                 ),
                 Text(option)
@@ -723,36 +744,37 @@ class _SurveyPageState extends State<SurveyPage> {
           ),
         ],
       );
-    if (type == 7) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Radio(
-                  value: index,
-                  groupValue: _selectedRadio,
-                  onChanged: (val) {
-                    setSelectedRadio(val!);
-                    _RadioSel(option);
-                  },
-                ),
-                Text(option)
-              ],
-            ),
-          ),
-        ],
-      );
-    } else
+    // if (type == 7) {
+    //   return Column(
+    //     mainAxisAlignment: MainAxisAlignment.center,
+    //     crossAxisAlignment: CrossAxisAlignment.center,
+    //     children: <Widget>[
+    //       Center(
+    //         child: Row(
+    //           mainAxisAlignment: MainAxisAlignment.center,
+    //           crossAxisAlignment: CrossAxisAlignment.center,
+    //           children: [
+    //             Radio(
+    //               value: index,
+    //               groupValue: _selectedRadio,
+    //               onChanged: (val) {
+    //                 setSelectedRadio(val!);
+    //                 _RadioSel(option);
+    //               },
+    //             ),
+    //             Text(option)
+    //           ],
+    //         ),
+    //       ),
+    //     ],
+    //   );
+    // }
+    else
       return Column(children: [
         CheckboxListTile(
           value: _valuesCheck.contains(option),
           onChanged: (val) {
-            _onSelected(val!, option);
+            _onSelected(val!, option, id);
           },
           title: Text(option),
         ),
