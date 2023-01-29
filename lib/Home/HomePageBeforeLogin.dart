@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_application_1/screens/DokterPages/dokterpage.dart';
 import 'package:flutter_application_1/screens/FormSurvey/FormSurvey.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,9 +17,9 @@ class FirstMenu extends StatelessWidget {
             splashColor: Color.fromARGB(255, 0, 0, 0).withAlpha(30),
             highlightColor: Color.fromARGB(255, 0, 0, 0),
             onTap: () {
-              // Navigator.push(
-              //   context,MaterialPageRoute(builder: (context) => ),
-              //   );
+              Navigator.push(
+                context,MaterialPageRoute(builder: (context) => DokterPages()),
+                );
             },
             child: Container(
                 height: double.infinity,
