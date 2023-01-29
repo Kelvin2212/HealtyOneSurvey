@@ -394,7 +394,7 @@ class _SurveyPageState extends State<SurveyPage> {
     } else {
       setState(() {
         _valuesCheck.remove;
-        idCheck.add(id);
+        idCheck.remove;
       });
     }
   }
@@ -555,7 +555,7 @@ class _SurveyPageState extends State<SurveyPage> {
     fetchJson2().then((value) {
       setState(() {
         _questionoption.addAll(value);
-        // _selectedRadio = 0;
+        _selectedRadio = 0;
       });
     });
     super.initState();
